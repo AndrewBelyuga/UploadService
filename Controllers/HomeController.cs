@@ -52,6 +52,33 @@ namespace UploadService.Controllers
                 {
                     uploadedFile.CopyTo(localFile);
                 }
+
+                if (file == null || file.Length == 0)
+                {
+                    return await Task.FromResult((string)null);
+                }
+
+                using (var reader = new StreamReader(file.OpenReadStream()))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+
+                //string ReadCSV = System.IO.File.ReadAllText(CSVFilePath);
+
+                //foreach (string csvRow in ReadCSV.Split('\n'))
+                //{
+                //    if (!string.IsNullOrEmpty(csvRow))
+                //    {
+                //        //Adding each row into datatable  
+                //        tblcsv.Rows.Add();
+                //        int count = 0;
+                //        foreach (string FileRec in csvRow.Split(','))
+                //        {
+                //            tblcsv.Rows[tblcsv.Rows.Count - 1][count] = FileRec;
+                //            count++;
+                //        }
+                //    }
+                //}
             }
 
             ViewBag.Message = "Files were successfully uploaded";
