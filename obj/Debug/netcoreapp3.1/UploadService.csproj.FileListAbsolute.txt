@@ -19,7 +19,6 @@ C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.TagHelpers.output.cache
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.RazorCoreGenerate.cache
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -31,7 +30,6 @@ C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.dll
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.pdb
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.csproj.CopyComplete
-C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\Razor\Views\Home\Upload.cshtml.g.cs
 C:\Users\Admin\source\repos\UploadService\obj\Debug\netcoreapp3.1\UploadService.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Admin\source\repos\UploadService\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
 C:\Users\Admin\source\repos\UploadService\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
