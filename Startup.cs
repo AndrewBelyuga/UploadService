@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using UploadService.Infrastructure;
+using UploadService.Infrastructure.Logger;
 using UploadService.Interfaces;
 
 namespace UploadService
@@ -25,15 +28,20 @@ namespace UploadService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
+
             services.AddControllersWithViews();
 
             services.AddScoped<IUploadFilesService, UploadFilesService>();
             services.AddScoped<IUploadFilesRepository, UploadFilesRepository>();
+            //services.AddScoped<ILogger>(factory => new FileLogger(Path.Combine(Directory.GetCurrentDirectory(), "log.txt")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "log.txt"));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

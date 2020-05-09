@@ -10,5 +10,11 @@ namespace UploadService.Interfaces
         void ProcessCSVFile(string customerName);
 
         void ProcessXMLFile(string customerName);
+
+        void GetAllTranactionsByCurrency(string currency);
+
+        void GetAllTranactionsByDateRange(string startDate, string enddate);
+
+        void GetAllTranactionsByStatus(string status);
     }
 }

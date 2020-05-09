@@ -35,11 +35,6 @@ namespace UploadService.Controllers
             if (ModelState.IsValid)
             {
                 var file = uploadFileModel.UploadFile;
-                if (file == null || file.Length == 0)
-                {
-                    ModelState.AddModelError("", "Uploaded file is empty or null.");
-                    return View(viewName: "Index");
-                }
 
                 var fileName = file.FileName;
                 var fileExtension = Path.GetExtension(fileName);
@@ -60,16 +55,32 @@ namespace UploadService.Controllers
                     _uploadFilesService.ProcessCSVFile(filePath);
                 if (fileExtension == ".xml")
                     _uploadFilesService.ProcessXMLFile(filePath);
-
-                ViewBag.Message = "Files were successfully uploaded";
             }
-            return View();
+            return Ok();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllTranactionsByCurrency()
+        {
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllTranactionsByDateRange()
+        {
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllTranactionsByStatus()
+        {
+            return Ok();
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Data;
 using System.IO;
+using System.Text;
 using System.Xml;
 using UploadService.Interfaces;
 
@@ -9,10 +11,13 @@ namespace UploadService.Infrastructure
     public class UploadFilesService : IUploadFilesService
     {
         private readonly IUploadFilesRepository _uploadFilesRepository;
+        private readonly ILogger<UploadFilesService> _logger;
+        private bool allLinesAreProper = true;
 
-        public UploadFilesService(IUploadFilesRepository uploadFilesRepository)
+        public UploadFilesService(IUploadFilesRepository uploadFilesRepository, ILogger<UploadFilesService> logger)
         {
             _uploadFilesRepository = uploadFilesRepository;
+            _logger = logger;
         }
         public void ProcessCSVFile(string filePath)
         {
@@ -27,19 +32,26 @@ namespace UploadService.Infrastructure
             using (StreamReader sr = new StreamReader(filePath))
             {
                 string line;
-
                 while ((line = sr.ReadLine()) != null)
                 {
                     table.Rows.Add();
                     int count = 0;
                     foreach (string FileRec in line.Split(','))
                     {
+                        CheckUploadingRecordAndLogInfo(FileRec,line);
+
                         table.Rows[table.Rows.Count - 1][count] = FileRec;
                         count++;
                     }
                 }
             }
-            _uploadFilesRepository.InsertRecords(table);
+            if (allLinesAreProper)
+                _uploadFilesRepository.InsertRecords(table);
+            else
+            {
+                CancellUploadingAndLogInfo();
+                return;
+            }
         }
 
         public void ProcessXMLFile(string filePath)
@@ -59,10 +71,13 @@ namespace UploadService.Infrastructure
                 table.Rows.Add();
                 int count = 0;
 
+                CheckUploadingRecordAndLogInfo(node.Attributes[0].InnerText, node.OuterXml);
                 table.Rows[table.Rows.Count - 1][count] = node.Attributes[0].InnerText;
                 count++;
                 foreach (XmlNode child in node.ChildNodes)
                 {
+                    CheckUploadingRecordAndLogInfo(child.InnerText, node.OuterXml);
+
                     switch (child.Name)
                     {
                         case "TransactionDate":
@@ -72,6 +87,8 @@ namespace UploadService.Infrastructure
                         case "PaymentDetails":
                             for (int i = 0; i < child.ChildNodes.Count; i++)
                             {
+                                CheckUploadingRecordAndLogInfo(child.ChildNodes[i].InnerText, node.OuterXml);
+
                                 table.Rows[table.Rows.Count - 1][count] = child.ChildNodes[i].InnerText;
                                 count++;
                             }
@@ -83,8 +100,29 @@ namespace UploadService.Infrastructure
                     }
                 }
             }
+            if (allLinesAreProper)
+                _uploadFilesRepository.InsertRecords(table);
+            else
+            {
+                CancellUploadingAndLogInfo();
+                return;
+            }
+        }
 
-            _uploadFilesRepository.InsertRecords(table);
+        private void CheckUploadingRecordAndLogInfo(string cell, string line)
+        {
+            if (string.IsNullOrEmpty(cell) || string.IsNullOrWhiteSpace(cell))
+            {
+                allLinesAreProper = false;
+
+                _logger.LogInformation($"========={DateTime.Now}=========");
+                _logger.LogInformation("Something wrong in line:");
+                _logger.LogInformation(line);
+            }
+        }
+        private void CancellUploadingAndLogInfo()
+        {
+            _logger.LogInformation("=====================================");
         }
     }
 }

@@ -31,7 +31,7 @@ namespace UploadService.Infrastructure
 
         public string GetErrorMessage()
         {
-            return $"This file extension is not allowed!";
+            return $"“Unknown format!";
         }
     }
 }
