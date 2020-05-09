@@ -124,5 +124,21 @@ namespace UploadService.Infrastructure
         {
             _logger.LogInformation("=====================================");
         }
+
+        public string GetAllTranactionsByCurrency(string currency)
+        {
+            return _uploadFilesRepository.GetByCurrency(currency);
+        }
+
+        public string GetAllTranactionsByDateRange(string startDate, string enddate)
+        {
+            return _uploadFilesRepository.GetByDateRange(startDate, enddate);
+        }
+
+        public string GetAllTranactionsByStatus(string status)
+        {
+            return _uploadFilesRepository.GetByStatus(status);
+        }
+
     }
 }

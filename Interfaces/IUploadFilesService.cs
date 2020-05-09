@@ -11,10 +11,10 @@ namespace UploadService.Interfaces
 
         void ProcessXMLFile(string customerName);
 
-        void GetAllTranactionsByCurrency(string currency);
+        string GetAllTranactionsByCurrency(string currency);
 
-        void GetAllTranactionsByDateRange(string startDate, string enddate);
+        string GetAllTranactionsByDateRange(string startDate, string enddate);
 
-        void GetAllTranactionsByStatus(string status);
+        string GetAllTranactionsByStatus(string status);
     }
 }

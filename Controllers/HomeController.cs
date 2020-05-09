@@ -65,22 +65,22 @@ namespace UploadService.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpGet]
-        public IActionResult GetAllTranactionsByCurrency()
+        [HttpPost]
+        public string GetAllTranactionsByCurrency(string currency)
         {
-            return Ok();
+            return _uploadFilesService.GetAllTranactionsByCurrency(currency);
         }
 
-        [HttpGet]
-        public IActionResult GetAllTranactionsByDateRange()
+        [HttpPost]
+        public string GetAllTranactionsByDateRange(string startDate, string endDate)
         {
-            return Ok();
+            return _uploadFilesService.GetAllTranactionsByDateRange(startDate, endDate);
         }
 
-        [HttpGet]
-        public IActionResult GetAllTranactionsByStatus()
+        [HttpPost]
+        public string GetAllTranactionsByStatus(string status)
         {
-            return Ok();
+            return _uploadFilesService.GetAllTranactionsByStatus(status);
         }
     }
 }
