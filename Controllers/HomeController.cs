@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using UploadService.Models;
 using UploadService.Interfaces;
+using UploadService.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 
 namespace UploadService.Controllers
 {
@@ -28,10 +30,17 @@ namespace UploadService.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(IFormFile[] files)
+        public IActionResult Index(UploadFileModel uploadFileModel)
         {
-            foreach (var file in files)
+            if (ModelState.IsValid)
             {
+                var file = uploadFileModel.UploadFile;
+                if (file == null || file.Length == 0)
+                {
+                    ModelState.AddModelError("", "Uploaded file is empty or null.");
+                    return View(viewName: "Index");
+                }
+
                 var fileName = file.FileName;
                 var fileExtension = Path.GetExtension(fileName);
                 var filePath = Path.GetFullPath(fileName);
@@ -51,10 +60,9 @@ namespace UploadService.Controllers
                     _uploadFilesService.ProcessCSVFile(filePath);
                 if (fileExtension == ".xml")
                     _uploadFilesService.ProcessXMLFile(filePath);
+
+                ViewBag.Message = "Files were successfully uploaded";
             }
-
-            ViewBag.Message = "Files were successfully uploaded";
-
             return View();
         }
 
